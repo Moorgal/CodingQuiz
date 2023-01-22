@@ -1,8 +1,7 @@
-console.log('hello questions.js');
 // I got the quiz questions and answers from w3school.com js quiz
 
 const questions = [
-  { question: 'Inside which HTML element do we put the JavaScript?', answers: ['<javascript>', '<js>', '<script>', '<scripting>'], correctAnswer: '<script>' },
+  { question: 'Inside which HTML element do we put the JavaScript?', answers: ['<javascript>', '<js>', '<script>', '<pscripting>'], correctAnswer: '<script>' },
   {
     question: 'Where is the correct place to insert a JavaScript?',
     answers: ['The <body> section', 'The <head> section', 'The <header> section', 'The <footer> section'],
