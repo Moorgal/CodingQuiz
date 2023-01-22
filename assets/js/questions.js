@@ -1,7 +1,7 @@
 // I got the quiz questions and answers from w3school.com js quiz
 
 const questions = [
-  { question: 'Inside which HTML element do we put the JavaScript?', answers: ['<javascript>', '<js>', '<script>', '<pscripting>'], correctAnswer: '<script>' },
+  { question: 'Inside which HTML element do we put the JavaScript?', answers: ['&lt; javascript &gt;', '&lt; js &gt;', '&lt; script &gt;', '&lt; scripting &gt;'], correctAnswer: '<script>' },
   {
     question: 'Where is the correct place to insert a JavaScript?',
     answers: ['The <body> section', 'The <head> section', 'The <header> section', 'The <footer> section'],

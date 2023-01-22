@@ -8,38 +8,41 @@ const finalScore = document.querySelector('#final-score');
 const initials = document.querySelector('#initials');
 const feedback = document.querySelector('#feedback');
 
-// function to create a random index
-function randomIndex(arr) {
-  let randomIndex = Math.floor(Math.random() * arr.length);
-  let index = arr[randomIndex];
-  return index;
-}
+// create an array of random selected questions
+let selectedQuestions = [];
+function selectQuestions() {
+  do {
+    randomIndex = Math.floor(Math.random() * questions.length);
+    if (selectedQuestions.includes(randomIndex)) {
+      selectedQuestions = selectedQuestions;
+    } else {
+      selectedQuestions.push(randomIndex);
+    }
+  } while (selectedQuestions.length < 5);
 
+  return selectedQuestions;
+}
+selectQuestions();
+
+// start the Quiz
 function startQuiz() {
   questionForm.classList.remove('hide');
   questionTitle.textContent = questions[0].question;
-  let whatever = questions[0].answers[0];
-  questionChoices.innerHTML = `<button>${whatever}</button>`;
+  quizAnswers = questions[0].answers;
+  let buttons = '';
+  for (let i = 0; i < quizAnswers.length; i++) {
+    buttons += `<button class="btn">${questions[0].answers[i]}</button>`;
+    questionChoices.innerHTML = buttons;
+  }
 }
 // set up timer
 
 startButton.addEventListener('click', startQuiz);
 
-// question-title
-// questionTitleText = questions[0].question;
-// console.log(questionTitleText);
-// textcontent
-
-// choices
-// questionChoicesText = questions[0].answers[2];
-
-// const button = document.createElement('button');
-// button.classList.add('isCorrect');
-// button.innerHTML = `${questions[0].answers[2]}`;
-// questionChoices.appendChild(button);
-
-// innerhtml for loop button
-// randomized
+// function checkQuiz() {
+//   let btn = document.querySelectorAll('.btn');
+//   if (btn.textContent = )
+// }
 
 // if correct
 
