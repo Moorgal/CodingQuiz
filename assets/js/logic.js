@@ -27,6 +27,7 @@ selectQuestions();
 // start the Quiz
 function startQuiz() {
   questionForm.classList.remove('hide');
+  startButton.classList.add('hide');
   questionTitle.textContent = questions[0].question;
   quizAnswers = questions[0].answers;
   let buttons = '';
@@ -34,19 +35,31 @@ function startQuiz() {
     buttons += `<button class="btn">${questions[0].answers[i]}</button>`;
     questionChoices.innerHTML = buttons;
   }
+  let btns = document.querySelectorAll('button');
+  btns.forEach(function (i) {
+    i.addEventListener('click', function () {
+      if (i.innerHTML === questions[0].correctAnswer) {
+        feedback.classList.remove('hide');
+        feedback.textContent = 'Correct';
+      } else {
+        feedback.classList.remove('hide');
+        feedback.textContent = 'Wrong';
+      }
+    });
+  });
 }
-// set up timer
 
 startButton.addEventListener('click', startQuiz);
+startButton.addEventListener('click', timer);
 
-// function checkQuiz() {
-//   let btn = document.querySelectorAll('.btn');
-//   if (btn.textContent = )
-// }
+function timer() {
+  let setTime = 60;
+  let timeLeft = setInterval(function () {
+    time.textContent = setTime;
+    setTime--;
+  }, 1000);
+}
 
-// if correct
-
-// if not correct
 // if not correct subtract from clock
 
 // end of the game <div id="end-screen" class="hide"> switch on and questions switches off
