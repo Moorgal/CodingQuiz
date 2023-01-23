@@ -4,15 +4,15 @@ const questions = [
   { question: 'Inside which HTML element do we put the JavaScript?', answers: ['&lt; javascript &gt;', '&lt; js &gt;', '&lt; script &gt;', '&lt; scripting &gt;'], correctAnswer: '&lt; script &gt;' },
   {
     question: 'Where is the correct place to insert a JavaScript?',
-    answers: ['The <body> section', 'The <head> section', 'The <header> section', 'The <footer> section'],
-    correctAnswer: 'The <body> section',
+    answers: ['The &lt; body &gt; section', 'The &lt; head &gt; section', 'The &lt; header &gt; section', 'The &lt; footer &gt; section'],
+    correctAnswer: 'The &lt; body &gt; section',
   },
   {
     question: 'What is the correct syntax for referring to an external script called "xxx.js"?',
-    answers: ['<script src=xxx.js>', '<script href=xxx.js>', '<script name=xxx.js>'],
-    correctAnswer: '<script src=xxx.js>',
+    answers: ['&lt; script src=xxx.js &gt;', '&lt; script href=xxx.js &gt;', '&lt; script name=xxx.js &gt;'],
+    correctAnswer: '&lt; script src=xxx.js &gt;',
   },
-  { question: 'The external JavaScript file must contain the <script> tag.', answers: ['false', 'true'], correctAnswer: 'false' },
+  { question: 'The external JavaScript file must contain the &lt; script &gt; tag.', answers: ['false', 'true'], correctAnswer: 'false' },
   {
     question: 'How do you write "Hello World" in an alert box?',
     answers: ['alertBox("Hello World")', 'msgBox("Hello World")', 'alert("Hello World")', 'msg("Hello World")'],
