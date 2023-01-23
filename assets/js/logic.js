@@ -9,8 +9,6 @@ const initials = document.querySelector('#initials');
 const feedback = document.querySelector('#feedback');
 let setTime = 60;
 let selectedQuestions = [];
-let correct = [];
-let Incorrect = [];
 
 // timer function
 function timer() {
@@ -21,57 +19,54 @@ function timer() {
 }
 
 // create an array of random selected questions
-
 function selectQuestions() {
-  do {
+  while (selectedQuestions.length < 5) {
     randomIndex = Math.floor(Math.random() * questions.length);
     if (selectedQuestions.includes(randomIndex)) {
       selectedQuestions = selectedQuestions;
     } else {
       selectedQuestions.push(randomIndex);
     }
-  } while (selectedQuestions.length < 5);
-
+  }
   return selectedQuestions;
 }
-selectQuestions();
 
-function askQuestion(number) {
-  if (questions[number] === undefined) {
-    questionForm.classList.add('hide');
-    endScreen.classList.remove('hide');
-  } else {
-    questionTitle.textContent = questions[number].question;
-    quizAnswers = questions[number].answers;
+counter = 0;
+
+function startQuiz() {
+  selectedQuestions = selectQuestions();
+
+  if (counter < 5) {
+    questionForm.classList.remove('hide');
+    startButton.classList.add('hide');
+    questionTitle.textContent = questions[selectedQuestions[counter]].question;
+    quizAnswers = questions[selectedQuestions[counter]].answers;
     let buttons = '';
     for (let i = 0; i < quizAnswers.length; i++) {
-      buttons += `<button class="btn">${questions[number].answers[i]}</button>`;
+      buttons += `<button class="btn">${questions[selectedQuestions[counter]].answers[i]}</button>`;
       questionChoices.innerHTML = buttons;
     }
     let btns = document.querySelectorAll('button');
     btns.forEach(function (i) {
       i.addEventListener('click', function () {
-        if (i.innerHTML === questions[number].correctAnswer) {
+        if (i.innerHTML === questions[selectedQuestions[counter]].correctAnswer) {
           feedback.classList.remove('hide');
           feedback.textContent = 'Correct';
-          askQuestion(number + 1);
+          counter++;
+          startQuiz();
         } else {
           feedback.classList.remove('hide');
           feedback.textContent = 'Wrong';
           setTime = setTime - 5;
-          askQuestion(number + 1);
+          counter++;
+          startQuiz();
         }
       });
     });
+  } else {
+    questionForm.classList.add('hide');
+    endScreen.classList.remove('hide');
   }
-}
-
-// start the Quiz
-function startQuiz() {
-  questionForm.classList.remove('hide');
-  startButton.classList.add('hide');
-  let currentQuestion = selectedQuestions[0];
-  askQuestion(currentQuestion);
 }
 
 startButton.addEventListener('click', startQuiz);
