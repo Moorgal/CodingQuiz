@@ -9,13 +9,26 @@ const initials = document.querySelector('#initials');
 const feedback = document.querySelector('#feedback');
 let setTime = 60;
 let selectedQuestions = [];
+sessionStorage.setItem('score', 0);
 
 // timer function
 function timer() {
-  let timeLeft = setInterval(function () {
-    time.textContent = setTime;
-    setTime--;
-  }, 1000);
+  time.textContent = setTime;
+  setTime--;
+}
+let countBack;
+function startTimer() {
+  countBack = setInterval(timer, 1000);
+}
+function stopTimer() {
+  clearInterval(countBack);
+}
+
+// update scores
+function updateScores(num) {
+  let baseScore = sessionStorage.getItem('score');
+  baseScore = parseInt(baseScore) + num;
+  sessionStorage.setItem('score', baseScore);
 }
 
 // create an array of random selected questions
@@ -32,11 +45,15 @@ function selectQuestions() {
 }
 
 counter = 0;
-
+// start the quiz
 function startQuiz() {
   selectedQuestions = selectQuestions();
 
-  if (counter < 5) {
+  if (counter >= 5) {
+    questionForm.classList.add('hide');
+    endScreen.classList.remove('hide');
+    stopTimer();
+  } else {
     questionForm.classList.remove('hide');
     startButton.classList.add('hide');
     questionTitle.textContent = questions[selectedQuestions[counter]].question;
@@ -53,24 +70,23 @@ function startQuiz() {
           feedback.classList.remove('hide');
           feedback.textContent = 'Correct';
           counter++;
+          updateScores(5);
           startQuiz();
         } else {
           feedback.classList.remove('hide');
           feedback.textContent = 'Wrong';
           setTime = setTime - 5;
           counter++;
+          updateScores(-2);
           startQuiz();
         }
       });
     });
-  } else {
-    questionForm.classList.add('hide');
-    endScreen.classList.remove('hide');
   }
 }
 
 startButton.addEventListener('click', startQuiz);
-startButton.addEventListener('click', timer);
+startButton.addEventListener('click', startTimer);
 
 // <p>Your final score is <span id="final-score"></span>.</p>
 // show final points
