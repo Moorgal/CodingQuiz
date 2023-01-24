@@ -8,4 +8,6 @@ When the "Start Quiz" button pressed the game and a timer starts. It asks you 5 
 
 Deployed Application: https://moorgal.github.io/bc6_CodingQuizChallenge/index.html
 
+![alt text](https://github.com/Moorgal/bc6_CodingQuizChallenge/blob/main/08-web-apis-challenge-demo.gif)
+
 <!-- ![alt text](http://url/to/img.png) -->
