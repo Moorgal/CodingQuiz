@@ -1,4 +1,5 @@
 const time = document.querySelector('#time');
+const timerSet = document.querySelector('.timer');
 const startButton = document.querySelector('#start');
 const questionForm = document.querySelector('#questions');
 const questionTitle = document.querySelector('#question-title');
@@ -6,6 +7,7 @@ const questionChoices = document.querySelector('#choices');
 const endScreen = document.querySelector('#end-screen');
 const finalScore = document.querySelector('#final-score');
 const initials = document.querySelector('#initials');
+const submitButton = document.querySelector('#submit');
 const feedback = document.querySelector('#feedback');
 let setTime = 60;
 let selectedQuestions = [];
@@ -31,6 +33,11 @@ function updateScores(num) {
   sessionStorage.setItem('score', baseScore);
 }
 
+function setLocalStorage() {
+  score = sessionStorage.getItem('score');
+  finalScore.innerHTML = `${score}`;
+}
+
 // create an array of random selected questions
 function selectQuestions() {
   while (selectedQuestions.length < 5) {
@@ -49,10 +56,13 @@ counter = 0;
 function startQuiz() {
   selectedQuestions = selectQuestions();
 
-  if (counter >= 5) {
+  if (counter >= 5 || setTime === 0) {
     questionForm.classList.add('hide');
     endScreen.classList.remove('hide');
+    timerSet.classList.add('hide');
+    feedback.classList.add('hide');
     stopTimer();
+    setLocalStorage();
   } else {
     questionForm.classList.remove('hide');
     startButton.classList.add('hide');
@@ -85,16 +95,15 @@ function startQuiz() {
   }
 }
 
+function submit() {
+  let player = {
+    userName: initials.value.toUpperCase().trim(),
+    score: sessionStorage.getItem('score'),
+  };
+  localStorage.setItem('player', JSON.stringify(player));
+  location.href = './highscores.html';
+}
+
 startButton.addEventListener('click', startQuiz);
 startButton.addEventListener('click', startTimer);
-
-// <p>Your final score is <span id="final-score"></span>.</p>
-// show final points
-
-// submit initials
-
-// submit initials to highscores
-
-// feedback respond on correct or not correct
-
-// delete highscores
+submitButton.addEventListener('click', submit);
