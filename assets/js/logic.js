@@ -12,6 +12,8 @@ const feedback = document.querySelector('#feedback');
 let setTime = 60;
 let selectedQuestions = [];
 sessionStorage.setItem('score', 0);
+let correctAudio = new Audio('./assets/sfx/correct.wav');
+let inCorrectAudio = new Audio('./assets/sfx/incorrect.wav');
 
 // timer function
 function timer() {
@@ -79,6 +81,7 @@ function startQuiz() {
         if (i.innerHTML === questions[selectedQuestions[counter]].correctAnswer) {
           feedback.classList.remove('hide');
           feedback.textContent = 'Correct';
+          correctAudio.play();
           counter++;
           updateScores(5);
           startQuiz();
@@ -86,6 +89,7 @@ function startQuiz() {
           feedback.classList.remove('hide');
           feedback.textContent = 'Wrong';
           setTime = setTime - 5;
+          inCorrectAudio.play();
           counter++;
           updateScores(-2);
           startQuiz();
