@@ -1,4 +1,4 @@
-# Coding Quiz Challenge
+# Coding Quiz
 
 Table of Contents
 
