@@ -9,24 +9,34 @@ const finalScore = document.querySelector('#final-score');
 const initials = document.querySelector('#initials');
 const submitButton = document.querySelector('#submit');
 const feedback = document.querySelector('#feedback');
-let setTime = 60;
 let selectedQuestions = [];
 sessionStorage.setItem('score', 0);
 let correctAudio = new Audio('./assets/sfx/correct.wav');
 let inCorrectAudio = new Audio('./assets/sfx/incorrect.wav');
+counter = 0;
+let timeLeft = 6;
 
-// timer function
-function timer() {
-  time.textContent = setTime;
-  setTime--;
-}
-let countBack;
-function startTimer() {
-  countBack = setInterval(timer, 1000);
-}
-function stopTimer() {
-  clearInterval(countBack);
-}
+startButton.addEventListener('click', function () {
+  var interval = setInterval(function () {
+    if (timeLeft <= 0 || counter > 4) {
+      clearInterval(interval);
+      console.log('hey ho captain jack');
+      questionForm.classList.add('hide');
+      endScreen.classList.remove('hide');
+      timerSet.classList.add('hide');
+      feedback.classList.add('hide');
+      setLocalStorage();
+      return;
+    } else {
+      selectedQuestions = selectQuestions();
+      timeLeft--;
+      time.textContent = timeLeft;
+      questionForm.classList.remove('hide');
+      startButton.classList.add('hide');
+      quizQuestion();
+    }
+  }, 1000);
+});
 
 // update scores
 function updateScores(num) {
@@ -53,52 +63,6 @@ function selectQuestions() {
   return selectedQuestions;
 }
 
-counter = 0;
-// start the quiz
-function startQuiz() {
-  selectedQuestions = selectQuestions();
-
-  if (counter >= 5 || setTime === 0) {
-    questionForm.classList.add('hide');
-    endScreen.classList.remove('hide');
-    timerSet.classList.add('hide');
-    feedback.classList.add('hide');
-    stopTimer();
-    setLocalStorage();
-  } else {
-    questionForm.classList.remove('hide');
-    startButton.classList.add('hide');
-    questionTitle.textContent = questions[selectedQuestions[counter]].question;
-    quizAnswers = questions[selectedQuestions[counter]].answers;
-    let buttons = '';
-    for (let i = 0; i < quizAnswers.length; i++) {
-      buttons += `<button class="btn">${questions[selectedQuestions[counter]].answers[i]}</button>`;
-      questionChoices.innerHTML = buttons;
-    }
-    let btns = document.querySelectorAll('button');
-    btns.forEach(function (i) {
-      i.addEventListener('click', function () {
-        if (i.innerHTML === questions[selectedQuestions[counter]].correctAnswer) {
-          feedback.classList.remove('hide');
-          feedback.textContent = 'Correct';
-          correctAudio.play();
-          counter++;
-          updateScores(5);
-          startQuiz();
-        } else {
-          feedback.classList.remove('hide');
-          feedback.textContent = 'Wrong';
-          setTime = setTime - 5;
-          inCorrectAudio.play();
-          counter++;
-          updateScores(-2);
-          startQuiz();
-        }
-      });
-    });
-  }
-}
-
 function submit() {
   let player = {
     userName: initials.value.toUpperCase().trim(),
@@ -108,6 +72,35 @@ function submit() {
   location.href = './highscores.html';
 }
 
-startButton.addEventListener('click', startQuiz);
-startButton.addEventListener('click', startTimer);
 submitButton.addEventListener('click', submit);
+
+function quizQuestion() {
+  questionTitle.textContent = questions[selectedQuestions[counter]].question;
+  quizAnswers = questions[selectedQuestions[counter]].answers;
+  let buttons = '';
+  for (let i = 0; i < quizAnswers.length; i++) {
+    buttons += `<button class="btn">${questions[selectedQuestions[counter]].answers[i]}</button>`;
+    questionChoices.innerHTML = buttons;
+  }
+  let btns = document.querySelectorAll('button');
+  btns.forEach(function (i) {
+    i.addEventListener('click', function () {
+      if (i.innerHTML === questions[selectedQuestions[counter]].correctAnswer) {
+        feedback.classList.remove('hide');
+        feedback.textContent = 'Correct';
+        correctAudio.play();
+        counter++;
+        updateScores(5);
+        quizQuestion();
+      } else {
+        feedback.classList.remove('hide');
+        feedback.textContent = 'Wrong';
+        timeLeft = timeLeft - 5;
+        inCorrectAudio.play();
+        counter++;
+        updateScores(-2);
+        quizQuestion();
+      }
+    });
+  });
+}
