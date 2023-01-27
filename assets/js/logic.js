@@ -9,18 +9,21 @@ const finalScore = document.querySelector('#final-score');
 const initials = document.querySelector('#initials');
 const submitButton = document.querySelector('#submit');
 const feedback = document.querySelector('#feedback');
-let selectedQuestions = [];
-sessionStorage.setItem('score', 0);
+let selectedQuestions = []; // array to store the questions what will be asked
+sessionStorage.setItem('score', 0); // storage where the score got saved
 let correctAudio = new Audio('./assets/sfx/correct.wav');
 let inCorrectAudio = new Audio('./assets/sfx/incorrect.wav');
-counter = 0;
-let timeLeft = 6;
+counter = 0; // counts how many question got asked
+let timeLeft = 60; // time left to answer the questions
+
+// ------------------------------------------------------------------------------------------------------------------------------------
+// on click the quiz starts. if no more time or answered all 5 questions, then time stops , questions dissapear and page moves to the highscore table. Else asks another questions
+// ------------------------------------------------------------------------------------------------------------------------------------
 
 startButton.addEventListener('click', function () {
   var interval = setInterval(function () {
     if (timeLeft <= 0 || counter > 4) {
       clearInterval(interval);
-      console.log('hey ho captain jack');
       questionForm.classList.add('hide');
       endScreen.classList.remove('hide');
       timerSet.classList.add('hide');
@@ -38,7 +41,9 @@ startButton.addEventListener('click', function () {
   }, 1000);
 });
 
-// update scores
+// ------------------------------------------------------------------------------------------------------------------------------------
+// function what updates the scores.
+// ------------------------------------------------------------------------------------------------------------------------------------
 function updateScores(num) {
   let baseScore = sessionStorage.getItem('score');
   baseScore = parseInt(baseScore) + num;
@@ -50,7 +55,9 @@ function setLocalStorage() {
   finalScore.innerHTML = `${score}`;
 }
 
-// create an array of random selected questions
+// ------------------------------------------------------------------------------------------------------------------------------------
+// function what creates selectedQuestion[]. Choose 5 random questions from the lists of questions. It saves 5 indexes to the array
+// ------------------------------------------------------------------------------------------------------------------------------------
 function selectQuestions() {
   while (selectedQuestions.length < 5) {
     randomIndex = Math.floor(Math.random() * questions.length);
@@ -63,6 +70,9 @@ function selectQuestions() {
   return selectedQuestions;
 }
 
+// ------------------------------------------------------------------------------------------------------------------------------------
+// function what creates saves the scores and initials of the player to localstore
+// ------------------------------------------------------------------------------------------------------------------------------------
 function submit() {
   let player = {
     userName: initials.value.toUpperCase().trim(),
@@ -74,18 +84,25 @@ function submit() {
 
 submitButton.addEventListener('click', submit);
 
+// ------------------------------------------------------------------------------------------------------------------------------------
+// function what renders the questions what previously was choose to selectedQuestions[]
+// ------------------------------------------------------------------------------------------------------------------------------------
+
 function quizQuestion() {
-  questionTitle.textContent = questions[selectedQuestions[counter]].question;
-  quizAnswers = questions[selectedQuestions[counter]].answers;
+  questionTitle.textContent = questions[selectedQuestions[counter]].question; // renders the question from the questions object. SelectedQuestions stores array of indexes. Counter goes through 1 to 5 on the indexes
+  quizAnswers = questions[selectedQuestions[counter]].answers; // same as with questionTitle but with the answers
   let buttons = '';
   for (let i = 0; i < quizAnswers.length; i++) {
+    // creates the buttons with all the answers
     buttons += `<button class="btn">${questions[selectedQuestions[counter]].answers[i]}</button>`;
     questionChoices.innerHTML = buttons;
   }
   let btns = document.querySelectorAll('button');
   btns.forEach(function (i) {
+    // checks the answers
     i.addEventListener('click', function () {
       if (i.innerHTML === questions[selectedQuestions[counter]].correctAnswer) {
+        // if it is correct, it updates the scores and rerun the function with the next question (counter++)
         feedback.classList.remove('hide');
         feedback.textContent = 'Correct';
         correctAudio.play();
@@ -93,6 +110,7 @@ function quizQuestion() {
         updateScores(5);
         quizQuestion();
       } else {
+        // if incorrect it deduct 5 sec from the time left for the quiz, rerun the function with the next question (counter++)
         feedback.classList.remove('hide');
         feedback.textContent = 'Wrong';
         timeLeft = timeLeft - 5;
