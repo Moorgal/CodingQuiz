@@ -13,7 +13,8 @@ a:hover {
   color: #8570a5;
 }
 
-button {
+button,
+.submit {
   display: inline-block;
   margin: 5px;
   cursor: pointer;
@@ -26,7 +27,8 @@ button {
   transition: background-color 0.1s;
 }
 
-button:hover {
+button:hover,
+.submit:hover {
   background-color: #8570a5;
 }
 

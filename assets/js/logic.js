@@ -108,7 +108,7 @@ function quizQuestion() {
         correctAudio.play();
         counter++;
         updateScores(5);
-        quizQuestion();
+        // quizQuestion();
       } else {
         // if incorrect it deduct 5 sec from the time left for the quiz, rerun the function with the next question (counter++)
         feedback.classList.remove('hide');
@@ -117,7 +117,7 @@ function quizQuestion() {
         inCorrectAudio.play();
         counter++;
         updateScores(-2);
-        quizQuestion();
+        // quizQuestion();
       }
     });
   });
