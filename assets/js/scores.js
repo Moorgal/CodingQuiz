@@ -3,7 +3,11 @@ const clearButton = document.querySelector('#clear');
 
 let highScorePlayer = JSON.parse(localStorage.getItem('player'));
 console.log(highScorePlayer);
-highscores.innerHTML = `<li>${highScorePlayer.userName}  ${highScorePlayer.score}</li>`;
+if (highScorePlayer) {
+  highscores.innerHTML = `<li>${highScorePlayer.userName}  ${highScorePlayer.score}</li>`;
+} else {
+  highscores.innerHTML = ' ';
+}
 
 clearButton.addEventListener('click', clearStorage);
 
